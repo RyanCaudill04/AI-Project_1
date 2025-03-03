@@ -116,7 +116,7 @@ This project provided hands-on experience with fundamental search algorithms in 
 
 ### Course: CSCE 580 - Artificial Intelligence
 
-### Instructor: [Your Professor's Name]
+### Instructor: Pooyan Jamshidi
 
-### Student: [Your Name]
+### Student: Ryan Caudill
 
