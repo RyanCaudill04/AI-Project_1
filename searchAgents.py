@@ -325,7 +325,18 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
-
+            position, is_visited = state
+            x, y = position
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
+            if (not hitsWall):
+                next_position = (nextx, nexty)
+                next_is_visited = list(is_visited)
+                for i, corner in enumerate(self.corners):
+                    if next_position == corner:
+                        next_is_visited[i]= True
+                successors.append(((next_position, tuple(next_is_visited)), action, 1))
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
