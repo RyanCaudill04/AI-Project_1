@@ -28,7 +28,10 @@ class SearchProblem:
     """
 
     def getStartState(self):
-        return self.start_state
+        """
+        Returns the start state for the search problem.
+        """
+        util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
@@ -84,7 +87,26 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    #initialize
+    startState = problem.getStartState()
+    # Stack = DFS' LIFO 
+    stack = util.Stack()
+    visited = set()
+    # Push startstate and empty path to store the node paths taken 
+    stack.push((startState, []))
+    while not stack.isEmpty():
+        currentState, path = stack.pop()
+        if problem.isGoalState(currentState):
+            return path
+        # Makes sures that it doesnt go through visited nodes 
+        if currentState not in visited:
+            visited.add(currentState)
+            for nextState, action, cost in problem.getSuccessors(currentState):
+                if nextState not in visited: 
+                    stack.push((nextState, path + [action]))
+    return []
+
+    
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
