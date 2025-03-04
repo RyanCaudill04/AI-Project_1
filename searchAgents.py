@@ -295,14 +295,16 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        is_visited = (False, False, False, False)
+        return(self.startingPosition, is_visited)
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        position, is_visited = state
+        return all(is_visited)
 
     def getSuccessors(self, state):
         """
@@ -375,13 +377,33 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     position, is_visited = state
     unvisited = []
+
+    if all(is_visited):
+        return 0
     for i, corner in enumerate(corners):
-        if(not is_visited):
+        if(not is_visited[i]):
             # Calculate heuristic value using |x1-x2| + |y1-y2| 
-            manhattan_distance = abs(position[0]-corner[0]) + abs(position[1]-corner[1])
-            unvisited.append(manhattan_distance)
-    # return the min manhattan distance
-    return min(unvisited)
+            unvisited.append(corner)
+    total_distance = 0
+    current_pos = position
+    
+    while unvisited:
+        # Find distances from current position to all remaining corners
+        distances = []
+        for corner in unvisited:
+            dist = abs(current_pos[0] - corner[0]) + abs(current_pos[1] - corner[1])
+            distances.append((dist, corner))
+            
+        # Get closest corner
+        min_dist, closest_corner = min(distances)
+        total_distance += min_dist
+        
+        # Update for next iteration
+        current_pos = closest_corner
+        unvisited.remove(closest_corner)
+        
+    return total_distance
+
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
