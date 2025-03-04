@@ -112,7 +112,7 @@ def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     """Search the shallowest nodes in the search tree first."""
-    #initialize 
+    # Initialize 
     visited = set()
     # Queue = BFS' FIFO 
     queue = util.Queue()
@@ -132,7 +132,23 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    visited = set()
+    startState = problem.getStartState()
+    frontier = util.PriorityQueue()
+    # Push the tuple (start statem path, cost) and the priority, where priority = cost 
+    frontier.push(((startState,[], 0)), 0)
+    while not frontier.isEmpty():
+        currentState, currentPath, currentCost = frontier.pop()
+        if problem.isGoalState(currentState):
+            return currentPath
+        if currentState not in visited:
+            visited.add(currentState)
+            for nextState, action, nextCost in problem.getSuccessors(currentState):
+                if nextState not in visited:
+                    newCost = currentCost + nextCost
+                    frontier.push((nextState, currentPath + [action] , newCost), newCost)
+    
+    return []
 
 def nullHeuristic(state, problem=None):
     """
